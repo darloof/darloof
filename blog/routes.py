@@ -6,7 +6,7 @@ from flask import make_response, redirect, render_template, request, url_for, fl
 from flask_login import login_user, current_user, logout_user, login_required
 
 from .models import User, Post, db
-from .forms import UserLoginForm, UserRegistrationForm, UserModificationForm
+from .forms import UserLoginForm, UserRegistrationForm, UserModificationForm, PostForm
 from . import bcrypt
 from .file_stuffs import save_picture
 
@@ -14,29 +14,7 @@ from .file_stuffs import save_picture
 @app.route('/')
 @app.route('/home')
 def home():
-    posts = [
-        {
-            'author': 'darloof',
-            'author_id': 1,
-            'title': 'this is the first title',
-            'content': 'this is the content of first post',
-            'date_posted': '2022/08/07',
-        },
-        {
-            'author': 'mahdi',
-            'author_id': 2,
-            'title': 'this is the seoncd title',
-            'content': 'this is the content of seoncd post',
-            'date_posted': '2021/08/07',
-        },
-        {
-            'author': 'haniye',
-            'author_id': 3,
-            'title': 'this is the third title',
-            'content': 'this is the content of third post',
-            'date_posted': '2020/08/07',
-        },
-    ] * 4
+    posts = Post.query.all()
     return render_template('home.html', posts=posts)
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -93,6 +71,17 @@ def account():
     account_image = url_for('static', filename='profile_pics/' + current_user.profile_image)
     return render_template('account.html', title='Account', account_image=account_image, form=form)
 
+@app.route('/post/new', methods=['GET', 'POST'])
+@login_required
+def post_new():
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(title=form.title.data, content=form.content.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Post has been created!', 'success')
+        return redirect(url_for('home'))
+    return render_template('post_create.html', form=form, title='New Post', legend='New Post')
 
 @app.route('/portfolio')
 def about():
