@@ -7,11 +7,10 @@ import hashlib
 
 def save_picture(picture_object):
     picture_data = picture_object.read()
-    print('hello')
-    Hash = hashlib.sha1(picture_data).hexdigest()
+    picture_hash = hashlib.sha1(picture_data).hexdigest()
 
     _, f_ext = os.path.splitext(picture_object.filename)
-    picture_fn = Hash + f_ext
+    picture_fn = picture_hash + f_ext
     picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
 
     output_size = (125, 125)
