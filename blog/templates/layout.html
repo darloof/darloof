@@ -32,12 +32,17 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
               <div class="navbar-nav mr-auto">
                 <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" href="#">Portfolio</a>
+                <a class="nav-item nav-link" href="/portfolio">Portfolio</a>
                 <a class="nav-item nav-link" href="#">Contact me</a>
               </div>
               <div class="navbar-nav">
-                <a class="nav-item nav-link" href="/login">Login</a>
-                <a class="nav-item nav-link" href="/register">Register</a>
+                {% if current_user.is_authenticated %}
+                  <a class="nav-item nav-link" href="/account">Account</a>
+                  <a class="nav-item nav-link" href="/logout">Logout</a>
+                {% else %}
+                  <a class="nav-item nav-link" href="/login">Login</a>
+                  <a class="nav-item nav-link" href="/register">Register</a>
+                {% endif %}
               </div>
             </div>
         </nav>
