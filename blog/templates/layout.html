@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        {% if title %}
+          <title>Darloof - {{ title }}</title>
+        {% else %}
+          <title>Darloof's Blog</title>
+        {% endif %}
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="{{url_for('static', filename = 'assets/favicon.ico')}}" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{{url_for('static', filename = 'css/bootstrap.min.css')}}">
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="{{url_for('static', filename = 'css/main.css')}}">
+    </head>
+    <body>
+      <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+            <a class="navbar-brand" href="#">Darloof :)</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div class="navbar-nav mr-auto">
+                <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="#">Portfolio</a>
+                <a class="nav-item nav-link" href="#">Contact me</a>
+              </div>
+              <div class="navbar-nav">
+                <a class="nav-item nav-link" href="/login">Login</a>
+                <a class="nav-item nav-link" href="/register">Register</a>
+              </div>
+            </div>
+        </nav>
+      </header>
+
+      <main role="main" class="container">
+        <div class="row">
+          <div class="col-md-8 mt-5">
+            {% with messages = get_flashed_messages(with_categories=True) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                  <div class="alert alert-{{ category }}">
+                    {{ message }}
+                  </div>
+                {% endfor%}
+              {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %} 
+          </div>
+
+          <div class="card mt-5 sidebar" style="max-width: 18rem;">
+            <div class="card-body">
+              <p class="text-muted">some tools that you can use during reading blog posts</p>
+              <ul class="list-group ">
+                <li class="list-group-item">first tool</li>
+                <li class="list-group-item">second tool</li>
+                <li class="list-group-item">third tool</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </main>
+
+
+      <!-- Optional JavaScript -->
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src="{{url_for('static', filename = 'js/jquery.min.js')}}"></script>
+      <script src="{{url_for('static', filename = 'js/popper.min.js')}}"></script>
+      <script src="{{url_for('static', filename = 'js/bootstrap.bundle.min.js')}}"></script>
+    </body>
+</html>

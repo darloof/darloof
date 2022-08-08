@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "darloof_blog"
+version = "0.1.0"
+description = "Darloof personal blog."
+authors = ["Darloof <mrbayati2002@gmail.com>"]
+maintainers = ["Darloof <mrbayati2002@gmail.com>"]
+license = "GPLv3"
+readme = "README.md"
+homepage = ""
+repository = "https://github.com/mrbayati2002/darloof"
+documentation = ""
+keywords = [
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+flask = "*"
+flask_sqlalchemy = "*"
+pymysql = "*"
+python-dotenv = "*"
+
+[tool.poetry.dev-dependencies]
+pytest = "*"
+black = "*"
+isort = "*"
+
+[tool.poetry.scripts]
+run = "wsgi:main"
+
+[tool.poetry.urls]
+issues = "https://github.com/mrbayati2002/darloof/issues"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
