@@ -6,8 +6,9 @@ from flask import make_response, redirect, render_template, request, url_for, fl
 from flask_login import login_user, current_user, logout_user, login_required
 
 from .models import User, Post, db
-from .forms import UserLoginForm, UserRegistrationForm
+from .forms import UserLoginForm, UserRegistrationForm, UserModificationForm
 from . import bcrypt
+from .file_stuffs import save_picture
 
 
 @app.route('/')
@@ -72,10 +73,22 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
-@app.route('/account')
+@app.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
-    return render_template('account.html', title='Account')
+    form = UserModificationForm()
+    if form.validate_on_submit():
+        if form.profile_image.data:
+            profile_image_file = save_picture(form.profile_image.data)
+            current_user.profile_image = profile_image_file
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        current_user.write_date = datetime.utcnow()
+        db.session.commit()
+        flash('Account updated!', 'success')
+        return redirect(url_for('account'))
+    account_image = url_for('static', filename='profile_pics/' + current_user.profile_image)
+    return render_template('account.html', title='Account', account_image=account_image, form=form)
 
 
 @app.route('/portfolio')
