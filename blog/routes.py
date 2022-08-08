@@ -87,6 +87,9 @@ def account():
         db.session.commit()
         flash('Account updated!', 'success')
         return redirect(url_for('account'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
     account_image = url_for('static', filename='profile_pics/' + current_user.profile_image)
     return render_template('account.html', title='Account', account_image=account_image, form=form)
 
